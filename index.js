@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const YAML = require('js-yaml');
+const yaml = require('js-yaml');
 const fs = require('fs');
 
 // const auth = require('./token.json');
@@ -7,7 +7,12 @@ const client = new Discord.Client();
 
 
 var prefix = "z!";
-const token = fs.readFileSync('./token.yaml', "UTF-8");
+try {
+    const token = yaml.load(fs.readFileSync('./token.yaml', "UTF-8"));
+    client.login(token.token);
+} catch (e) {
+    console.log(e);
+}
 
 //Important (initializes bot)
 client.once('ready', () => {
@@ -26,7 +31,3 @@ client.on('message', msg => {
         console.log("🚀");
     }
 });
-
-
-//Important (logs in)
-client.login(token);
