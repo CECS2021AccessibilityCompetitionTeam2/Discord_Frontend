@@ -46,97 +46,99 @@ var followingUser = '';
 var defaultChannel = '';
 
 client.once('ready', () => {
-	console.log('Ready!')
-	client.guilds.cache.forEach(Guild => {
-		let channelID;
-		let channels = Guild.channels.cache;
-		for (let c of channels){
-			let channelType = c[1].type;
-			if (channelType === "text") {
-				channelID = c[0];
-				break;
-			}
-		}
-		defaultChannel = channels.get(Guild.systemChannelID || channelID);
-		//defaultChannel.send("PING PONG I AM ONLINE!");
-	});
+  console.log('Ready!')
+  client.guilds.cache.forEach(Guild => {
+    let channelID;
+    let channels = Guild.channels.cache;
+    for (let c of channels) {
+      let channelType = c[1].type;
+      if (channelType === "text") {
+        channelID = c[0];
+        break;
+      }
+    }
+    defaultChannel = channels.get(Guild.systemChannelID || channelID);
+    //defaultChannel.send("PING PONG I AM ONLINE!");
+  });
 });
 
 client.on('message', msg => {
-	if (msg.content === prefix + 'followme') {
-		followingUser = msg.member.user.id;
-		console.log("Following user: " + followingUser);
-	}
+  if (msg.content === prefix + 'followme') {
+    followingUser = msg.member.user.id;
+    console.log("Following user: " + followingUser);
+  }
 })
 
 client.on('voiceStateUpdate', async (oldMember, newMember) => {
-  let newUserChannel = newMember.voiceChannel
-  let oldUserChannel = oldMember.voiceChannel
-  console.log("USER VOICE CHANNEL STATE CHANGE!");
-  console.log("user " + oldMember.id);
-  console.log("previous channel: " + oldMember.voiceChannelID);
-  console.log("new channel: " + newMember.voiceChannelID);
-	if (newMember.id === followingUser){
-	  if((oldUserChannel === undefined && newUserChannel !== undefined)
-		|| (oldUserChannel !== undefined && newUserChannel !== undefined && oldUserChannel !== newUserChannel)){
-		 // User Joins a voice channel
-		console.log("Joined " + newUserChannel.id);
-		  const connection = await newMember.voiceChannel.join();
-		  const receiver = connection.createReceiver();
-		  defaultChannel.send("I am listening to you");
-		 	connection.playStream(new Silence(), { type: 'opus' });
-		  connection.on('speaking', (user, speaking) => {
-			if (!speaking) {
-			  return
-			}
+  let newUserChannel = newMember.voiceChannel;
+  let oldUserChannel = oldMember.voiceChannel;
+  console.log(`
+    ****USER VOICE CHANNEL STATE CHANGE!****
+    user: ${oldMember.id}
+    previous: ${oldMember.voiceChannelID}
+    new channel: ${+ newMember.voiceChannelID}
+  `);
+  if (newMember.id === followingUser) {
+    if ((oldUserChannel === undefined && newUserChannel !== undefined)
+      || (oldUserChannel !== undefined && newUserChannel !== undefined && oldUserChannel !== newUserChannel)) {
+      // User Joins a voice channel
+      console.log("Joined " + newUserChannel.id);
+      const connection = await newMember.voiceChannel.join();
+      const receiver = connection.createReceiver();
+      defaultChannel.send("I am listening to you");
+      connection.playStream(new Silence(), { type: 'opus' });
+      connection.on('speaking', (user, speaking) => {
+        if (!speaking) {
+          return
+        }
 
-			console.log(`I'm listening to ${user.username}`)
+        console.log(`I'm listening to ${user.username}`)
 
-			// this creates a 16-bit signed PCM, stereo 48KHz stream
-			const audioStream = receiver.createOpusStream(user)
-			const requestConfig = {
-			  encoding: 'LINEAR16',
-			  sampleRateHertz: 48000,
-			  languageCode: 'en-US'
-			}
-			const request = {
-			  config: requestConfig,
-			  user:user.username
-			}
-			const recognizeStream = googleSpeechClient
-			  .streamingRecognize(request)
-			  .on('error', console.error)
-			  .on('data', response => {
-				const transcription = response.results
-				  .map(result => result.alternatives[0].transcript)
-				  .join('\n')
-				  .toLowerCase()
-				console.log(`Transcription: ${transcription}`)
-			  })
+        // this creates a 16-bit signed PCM, stereo 48KHz stream
+        const audioStream = receiver.createOpusStream(user)
+        const requestConfig = {
+          encoding: 'LINEAR16',
+          sampleRateHertz: 48000,
+          languageCode: 'en-US'
+        }
+        const request = {
+          config: requestConfig,
+          user: user.username
+        }
+        const recognizeStream = googleSpeechClient
+          .streamingRecognize(request)
+          .on('error', console.error)
+          .on('data', response => {
+            const transcription = response.results
+              .map(result => result.alternatives[0].transcript)
+              .join('\n')
+              .toLowerCase()
+            console.log(`Transcription: ${transcription}`)
+          })
 
-			const convertTo1ChannelStream = new ConvertTo1ChannelStream()
+        const convertTo1ChannelStream = new ConvertTo1ChannelStream()
 
-			audioStream.pipe(convertTo1ChannelStream).pipe(recognizeStream)
+        audioStream.pipe(convertTo1ChannelStream).pipe(recognizeStream)
 
-			audioStream.on('end', async () => {
-			  console.log('audioStream end')
-					})
-		});
+        audioStream.on('end', async () => {
+          console.log('audioStream end')
+        })
+      });
 
-	  }else if(newUserChannel === undefined){
-		console.log("User left the channel");
-		oldUserChannel.leave();
-		// User leaves a voice channel
+    } else if (newUserChannel === undefined) {
+      console.log("User left the channel");
+      oldUserChannel.leave();
+      // User leaves a voice channel
 
-	  }
-	}
+    }
+  }
 })
 
 try {
-	const token = yaml.load(fs.readFileSync("./token.yaml", "UTF-8"));
-	client.login(token.token);
-  } catch (e) {
-	console.log(e);
+  const token = yaml.load(fs.readFileSync("./token.yaml", "UTF-8"));
+  client.login(token.token);
+} catch (e) {
+  console.log(e);
 }
 
 
