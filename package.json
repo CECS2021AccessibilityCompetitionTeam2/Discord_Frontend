@@ -22,9 +22,12 @@
   },
   "homepage": "https://github.com/CECS2021AccessibilityCompetitionTeam2/Team_2#readme",
   "dependencies": {
+    "@google-cloud/speech": "^4.2.0",
     "discord.js": "^12.5.1",
+    "dotenv": "^8.2.0",
     "fs": "0.0.1-security",
     "js-yaml": "^4.0.0",
+    "node-opus": "^0.3.3",
     "prettier": "^2.2.1"
   }
 }
