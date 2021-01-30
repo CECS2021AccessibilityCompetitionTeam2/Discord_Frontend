@@ -1,0 +1,29 @@
+{
+  "name": "team_2",
+  "version": "1.0.0",
+  "description": "Resources for team 2 discord bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CECS2021AccessibilityCompetitionTeam2/Team_2.git"
+  },
+  "keywords": [
+    "discord",
+    "npm",
+    "node"
+  ],
+  "author": "Jaime",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CECS2021AccessibilityCompetitionTeam2/Team_2/issues"
+  },
+  "homepage": "https://github.com/CECS2021AccessibilityCompetitionTeam2/Team_2#readme",
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "fs": "0.0.1-security",
+    "js-yaml": "^4.0.0"
+  }
+}
