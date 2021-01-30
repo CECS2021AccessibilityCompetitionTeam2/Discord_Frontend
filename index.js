@@ -72,12 +72,12 @@ client.on('message', msg => {
 client.on('voiceStateUpdate', async (oldMember, newMember) => {
   let newUserChannel = newMember.channelID;
   let oldUserChannel = oldMember.channelID;
-//   console.log(`
-//     ****USER VOICE CHANNEL STATE CHANGE!****
-//     user: ${oldMember.id}
-//     previous: ${oldMember.voiceChannelID}
-//     new channel: ${+ newMember.voiceChannelID}
-//   `);
+  console.log(`
+    ****USER VOICE CHANNEL STATE CHANGE!****
+    user: ${oldMember.id}
+    previous: ${oldMember.channelID}
+    new channel: ${+ newMember.channelID}
+  `);
   if (newMember.id === followingUser) {
     if ((oldUserChannel === undefined && newUserChannel !== undefined)
       || (oldUserChannel !== undefined && newUserChannel !== undefined && oldUserChannel !== newUserChannel)) {
@@ -89,9 +89,14 @@ client.on('voiceStateUpdate', async (oldMember, newMember) => {
 		}
 		await channel.join().then(connection => {
 			console.log("Successfully connected.");
-			const receiver = connection.createReceiver();
-      		defaultChannel.send("I am listening to you");
-      		connection.playStream(new Silence(), { type: 'opus' });
+
+			/* Create audio receiver for the followed user - 1/30/2021
+				https://discordjs.guide/voice/receiving-audio.html#advanced-usage
+			*/
+			const receiver = connection.receiver.createStream(followingUser);
+
+      		// defaultChannel.send("I am listening to you");
+      		connection.play(followingUser, { type: 'opus' });
       		connection.on('speaking', (user, speaking) => {
 				if (!speaking) {
 					return
@@ -99,7 +104,7 @@ client.on('voiceStateUpdate', async (oldMember, newMember) => {
 				console.log(`I'm listening to ${user.username}`)
 
         		// this creates a 16-bit signed PCM, stereo 48KHz stream
-				const audioStream = receiver.createOpusStream(user)
+				const audioStream = receiver.createStream(followingUser)
 				const requestConfig = {
 					encoding: 'LINEAR16',
 					sampleRateHertz: 48000,
