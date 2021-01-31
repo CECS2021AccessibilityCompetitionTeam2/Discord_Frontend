@@ -14,7 +14,7 @@ Created a discord bot that actively listens to speech and ultimately transcribes
 3. Google Cloud Speech-to-Text
 
 ## Simple User Functionality
-1. Use '!join' to get our bot to actively listen
+1. Use '!join' to have the bot join the voice channel
 2. Use '!asl' to invoke the command to translate the audio into a video demonstrating the ASL translation
 
 ## Future Ideas
