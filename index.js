@@ -73,7 +73,7 @@ client.once('ready', () => {
 });
 
 client.on('message', async (msg) => {
-	// Wait for "?join" to be typed in chat
+	// Wait for "!join" to be typed in chat
 	if (msg.content === prefix + "join") {
 		// Obtain the issuer of the command
 		const member = msg.member
