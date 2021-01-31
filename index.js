@@ -114,7 +114,7 @@ client.on('message', async (msg) => {
 				console.log(
 				`${user.username}: ${data.results[0].alternatives[0].transcript}`
 				);
-				fs.appendFile("./output/transcript.md", `${user.username}:${data.results[0].alternatives[0].transcript}`, err => {
+				fs.appendFile("./output/transcript.md", `${user.username}:${data.results[0].alternatives[0].transcript}\n`, err => {
 					if(err) {
 						throw err;
 					}
