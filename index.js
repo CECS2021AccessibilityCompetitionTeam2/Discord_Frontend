@@ -43,9 +43,6 @@ var joined = false;
 //ID of voice channel the bot is currently in.
 var memberVoiceChannel;
 
-//Bot's ID to prevent losing it in certain scopes due to caching errors on Discord's part
-var lookatme = '';
-
 //Name of the voice channel bot is currently in.
 var currentChannelName = '';
 
@@ -58,7 +55,6 @@ client.once('ready', () => {
 	lookatme = client.user;
 	console.log('Ready!')
 	client.guilds.cache.forEach(Guild => {
-		let channelID;
 		let channels = Guild.channels.cache;
 		for (let c of channels) {
 			let channelType = c[1].type;
@@ -69,7 +65,6 @@ client.once('ready', () => {
 		}
 	});
 });
-
 
 client.on('message', async (msg) => {
 	if (msg.content === prefix + "join") {
@@ -86,14 +81,6 @@ client.on('message', async (msg) => {
 		if (joined) {
 			return;
 		}
-
-		// client.channels.cache.get(memberVoiceChannel.id).send("The FBI has joined the voice channel: " +
-        // 	currentChannelName + " . Please be aware that your voice chat is being recorded for accessibility purposes. ");
-        // memberVoiceChannel.members.forEach(member => {
-        // 	if(member.id!==msg.member.id&&member.id!==lookatme.id){
-        //     	client.channels.cache.get(memberVoiceChannel.id).send('<@'+member.id+'>');
-		// 	}
-		// })
 
 		connection.play(new Silence(), { type: 'opus' });
 		connection.on('speaking', (user, speaking) => {
@@ -127,7 +114,7 @@ client.on('message', async (msg) => {
 				console.log(
 				`${user.username}: ${data.results[0].alternatives[0].transcript}`
 				);
-				fs.appendFile("./output/transcript.md", `${user.username}: ${data.results[0].alternatives[0].transcript}`, err => {
+				fs.appendFile("./output/transcript.md", `${user.username}:${data.results[0].alternatives[0].transcript}`, err => {
 					if(err) {
 						throw err;
 					}
@@ -139,7 +126,6 @@ client.on('message', async (msg) => {
 				console.log(' ')
 			})
 		})
-
 	})
 })
 
