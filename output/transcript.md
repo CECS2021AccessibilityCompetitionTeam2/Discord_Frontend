@@ -404,3 +404,7 @@ Sprynr:demo sentences were using her short and too long to time out that way.
 Sprynr:doesn't seem slow
 Sprynr:slower is my things already like garbage
 kylechan19:I'm going to push this change then
+  !asl
+kylechan19:testing
+kylechan19:okay I think that's plenty of time
+jgarcia16432:guy this thing is so awesome because teaching willekes looks slick

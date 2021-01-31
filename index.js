@@ -34,10 +34,13 @@ class ConvertTo1ChannelStream extends Transform {
 		next(null, convertBufferTo1Channel(data))
 	}
 }
+// Command prefix
+var prefix = "!";
 
-var prefix = "?";
+// Flag for if the bot has joined a voice channel.
 var joined = false;
-// used as a flag for changes in the .md file
+
+// used as a flag for changes in the .md file.
 var changesToTxt = false;
 
 // ID of voice channel the bot is currently in.
@@ -105,6 +108,7 @@ client.on('message', async (msg) => {
 				https://discordjs.guide/voice/receiving-audio.html#advanced-usage
 			*/
 			const audioStream = connection.receiver.createStream(user, { mode: 'pcm' })
+
 			const requestConfig = {
 				encoding: 'LINEAR16',
 				sampleRateHertz: 48000,
@@ -140,7 +144,7 @@ client.on('message', async (msg) => {
 			})
 		})
 	});
-	if (msg.content === '!asl') {
+	if (msg.content === prefix + 'asl') {
 		changesToTxt = false;
 		// Write '!asl' to the file so that the .py script can translate the following line
 		fs.appendFile("./output/transcript.md", '  !asl\n', err => {
@@ -150,12 +154,14 @@ client.on('message', async (msg) => {
 		});
 		console.log('!asl')
 		msg.channel.send("Please say what you would like to be transcribed.")
+		// Initial timeout to detect voice input from a speaker
 		setTimeout(
 			function() {
 				if (!changesToTxt) {
 					msg.channel.send("Timed out. Please enter `!asl` and try again.")
 				} else {
 					msg.channel.send("Processing transcription, please wait . . .")
+					// Timeout to give time for the backend to process the transcription
 					setTimeout(
 						function() {
 							/*	Create the attachment using MessageAttachment
