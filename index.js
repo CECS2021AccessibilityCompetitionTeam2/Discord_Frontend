@@ -4,6 +4,11 @@ const yaml = require("js-yaml");
 const fs = require("fs");
 const client = new Discord.Client();
 
+// Imports the Google Cloud client library
+const googleSpeech = require('@google-cloud/speech')
+// Creates a client
+const googleSpeechClient = new googleSpeech.SpeechClient()
+
 const { Readable } = require('stream');
 
 const SILENCE_FRAME = Buffer.from([0xF8, 0xFF, 0xFE]);
@@ -36,10 +41,6 @@ class ConvertTo1ChannelStream extends Transform {
     next(null, convertBufferTo1Channel(data))
   }
 }
-
-const googleSpeech = require('@google-cloud/speech')
-
-const googleSpeechClient = new googleSpeech.SpeechClient()
 
 var prefix = "?";
 var followingUser = '';
@@ -90,21 +91,20 @@ client.on('voiceStateUpdate', async (oldMember, newMember) => {
 		await channel.join().then(connection => {
 			console.log("Successfully connected.");
 
-			/* Create audio receiver for the followed user - 1/30/2021
+			/* Create audio reciever for the followed user - 1/30/2021
 				https://discordjs.guide/voice/receiving-audio.html#advanced-usage
 			*/
-			const receiver = connection.receiver.createStream(followingUser);
+			const audio = connection.receiver.createStream(followingUser, { mode: 'opus' });
 
       		// defaultChannel.send("I am listening to you");
-      		connection.play(followingUser, { type: 'opus' });
+      		// connection.play(followingUser, { type: 'opus' });
       		connection.on('speaking', (user, speaking) => {
 				if (!speaking) {
 					return
 				}
 				console.log(`I'm listening to ${user.username}`)
 
-        		// this creates a 16-bit signed PCM, stereo 48KHz stream
-				const audioStream = receiver.createStream(followingUser)
+				// this creates a 16-bit signed PCM, stereo 48KHz stream
 				const requestConfig = {
 					encoding: 'LINEAR16',
 					sampleRateHertz: 48000,
@@ -112,21 +112,24 @@ client.on('voiceStateUpdate', async (oldMember, newMember) => {
 				}
 				const request = {
 					config: requestConfig,
-					user: user.username
+					interimResults: false,
 				}
-       			const recognizeStream = googleSpeechClient
-					.streamingRecognize(request)
-					.on('error', console.error)
-					.on('data', response => {
-            			const transcription = response.results
-              			.map(result => result.alternatives[0].transcript)
-              			.join('\n')
-              			.toLowerCase()
-            		console.log(`Transcription: ${transcription}`)
-          			})
-        		const convertTo1ChannelStream = new ConvertTo1ChannelStream()
-				audioStream.pipe(convertTo1ChannelStream).pipe(recognizeStream)
-				audioStream.on('end', async () => {
+
+
+				// Stream the audio to the Google Cloud Speech API
+				const recognizeStream = googleSpeechClient
+				.streamingRecognize(request)
+				.on('error', console.error)
+				.on('data', data => {
+					console.log(data)
+					console.log(
+					`Transcription: ${data.results[0].alternatives[0].transcript}`
+					);
+				});
+				const convertTo1ChannelStream = new ConvertTo1ChannelStream()
+				audio.pipe(convertTo1ChannelStream).pipe(recognizeStream)
+
+				audio.on('end', async () => {
 					console.log('audioStream end')
 				})
       		});
@@ -135,7 +138,7 @@ client.on('voiceStateUpdate', async (oldMember, newMember) => {
 		});
     } else if (newUserChannel === undefined) {
       console.log("User left the channel");
-      oldUserChannel.leave();
+      channel.leave();
       // User leaves a voice channel
     }
   }
