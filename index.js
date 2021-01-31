@@ -46,6 +46,9 @@ var memberVoiceChannel;
 // Name of the voice channel bot is currently in.
 var currentChannelName = '';
 
+// time in ms before the bot will not try to translate
+var timeoutDuration = 10000;
+
 // Imports the Google Cloud client library
 const googleSpeech = require('@google-cloud/speech')
 // Creates a client
@@ -125,8 +128,9 @@ client.on('message', async (msg) => {
 					fs.appendFile("./output/transcript.md", `${user.username}:${data.results[0].alternatives[0].transcript}\n`, err => {
 						if (err) {
 							throw err;
+						} else {
+							changesToTxt = true;
 						}
-						changesToTxt = true;
 					});
 				});
 			const convertTo1ChannelStream = new ConvertTo1ChannelStream()
@@ -138,22 +142,26 @@ client.on('message', async (msg) => {
 	});
 	if (msg.content === '!asl') {
 		changesToTxt = false;
-		console.log('!asl')
-		if (!changesToTxt) {
-			msg.channel.send("Please say what you would like to be transcribed.")
-		} else {
-			// Write '!asl' to the file so that the .py script can translate the following line
-			fs.appendFile("./output/transcript.md", '!asl\n', err => {
+		// Write '!asl' to the file so that the .py script can translate the following line
+		fs.appendFile("./output/transcript.md", '!asl\n', err => {
 			if (err) {
 				throw err;
 			}
-			});
-			// Create the attachment using MessageAttachment
-			const attachment = new Discord.MessageAttachment("./output/video.mp4");
-			// Send the local attachment in the message channel with a content
-			msg.channel.send(msg.author, attachment)
-			.catch(console.error);
-		}
+		});
+		console.log('!asl')
+		msg.channel.send("Please say what you would like to be transcribed.")
+		setTimeout(
+			function() {
+				if (!changesToTxt) {
+					msg.channel.send("Timed out. Please enter `!asl` and try again.")
+				} else {
+					// Create the attachment using MessageAttachment
+					const attachment = new Discord.MessageAttachment("./output/video.mp4");
+					// Send the local attachment in the message channel with a content
+					msg.channel.send(msg.author, attachment)
+					.catch(console.error);
+				}
+			}, timeoutDuration);
 	}
 })
 

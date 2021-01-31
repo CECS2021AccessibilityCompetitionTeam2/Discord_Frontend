@@ -276,3 +276,131 @@ jgarcia16432:School Educational
 nFactorial:yeah
 kylechan19:I'm fine with anything as long as it's not like totally Wild
 andymerc:Anythink Queen on the Google games
+kylechan19:transcribe this
+kylechan19:okay I already see you on the sub
+kylechan19:testing
+kylechan19:I'm going to put one more change
+kylechan19:I'm going to put one more change
+kylechan19:I'm going to put one more change
+!asl
+kylechan19:hello
+kylechan19:hello
+kylechan19:hello
+jgarcia16432:all your kind of want to get everyone votes on which day you should pick out
+jgarcia16432:all your kind of want to get everyone votes on which day you should pick out
+jgarcia16432:all your kind of want to get everyone votes on which day you should pick out
+andymerc:change the presentation on man week
+andymerc:change the presentation on man week
+jgarcia16432:find them
+nFactorial:dude
+!asl
+kylechan19:I think I could just set a time out
+kylechan19:I think I could just set a time out
+kylechan19:I think I could just set a time out
+jgarcia16432:got done at work
+jgarcia16432:got done at work
+jgarcia16432:got done at work
+kylechan19:I mean I could just a timeout
+kylechan19:I mean I could just a timeout
+kylechan19:I mean I could just a timeout
+jgarcia16432:all right
+jgarcia16432:all right
+jgarcia16432:all right
+jgarcia16432:are there any themes you I like I kind of like the robot themed ones but we can pick something else
+jgarcia16432:are there any themes you I like I kind of like the robot themed ones but we can pick something else
+jgarcia16432:are there any themes you I like I kind of like the robot themed ones but we can pick something else
+nFactorial:I'm good with anything you can decide
+nFactorial:I'm good with anything you can decide
+nFactorial:I'm good with anything you can decide
+jgarcia16432:and then I wish you go with
+jgarcia16432:and then I wish you go with
+jgarcia16432:and then I wish you go with
+jgarcia16432:Corbett pitch deck or how to live in Norway a robot
+jgarcia16432:Corbett pitch deck or how to live in Norway a robot
+jgarcia16432:Corbett pitch deck or how to live in Norway a robot
+jgarcia16432:anyone else want to weigh in
+jgarcia16432:anyone else want to weigh in
+jgarcia16432:anyone else want to weigh in
+Sprynr:I'm looking at him right now give me a second
+Sprynr:I'm looking at him right now give me a second
+Sprynr:I'm looking at him right now give me a second
+Sprynr:I like either one of the first to sew
+Sprynr:I like either one of the first to sew
+Sprynr:I like either one of the first to sew
+Sprynr:robot Tech or the the icon on a pretty good
+Sprynr:robot Tech or the the icon on a pretty good
+Sprynr:robot Tech or the the icon on a pretty good
+jgarcia16432:and your thoughts
+jgarcia16432:and your thoughts
+jgarcia16432:and your thoughts
+andymerc:I like
+andymerc:I like
+andymerc:I like
+jgarcia16432:I didn't quite catch that
+jgarcia16432:I didn't quite catch that
+jgarcia16432:I didn't quite catch that
+andymerc:I like either of the first two
+andymerc:I like either of the first two
+andymerc:I like either of the first two
+jgarcia16432:nice Sean the first two
+jgarcia16432:nice Sean the first two
+jgarcia16432:nice Sean the first two
+jgarcia16432:want to pick Kyle
+jgarcia16432:want to pick Kyle
+jgarcia16432:want to pick Kyle
+kylechan19:let me hop on me
+kylechan19:let me hop on me
+kylechan19:let me hop on me
+jgarcia16432:are on the general
+jgarcia16432:are on the general
+jgarcia16432:are on the general
+nFactorial:you're the first two are pretty cool the fourth one is pretty cool to like the robot one because you meant to do but
+nFactorial:you're the first two are pretty cool the fourth one is pretty cool to like the robot one because you meant to do but
+nFactorial:you're the first two are pretty cool the fourth one is pretty cool to like the robot one because you meant to do but
+jgarcia16432:exactly
+jgarcia16432:exactly
+jgarcia16432:exactly
+kylechan19:yeah like the fourth one
+kylechan19:yeah like the fourth one
+kylechan19:yeah like the fourth one
+kylechan19:I am resetting a timeout
+kylechan19:I am resetting a timeout
+kylechan19:I am resetting a timeout
+nFactorial:yeah okay reading this file has the weirdest like race condition bug
+nFactorial:yeah okay reading this file has the weirdest like race condition bug
+nFactorial:yeah okay reading this file has the weirdest like race condition bug
+jgarcia16432:yeah the robot have little math rombo
+jgarcia16432:yeah the robot have little math rombo
+jgarcia16432:yeah the robot have little math rombo
+kylechan19:I guess I'll set two timeouts
+kylechan19:I guess I'll set two timeouts
+kylechan19:I guess I'll set two timeouts
+jgarcia16432:Adam buys on the fourth one
+jgarcia16432:Adam buys on the fourth one
+jgarcia16432:Adam buys on the fourth one
+andymerc:let's do the Firm phone number
+andymerc:let's do the Firm phone number
+andymerc:let's do the Firm phone number
+kylechan19:or sleep
+kylechan19:or sleep
+kylechan19:or sleep
+!asl
+!asl
+!asl
+!asl
+kylechan19:Essen
+kylechan19:all we did it
+kylechan19:we're doing it
+jgarcia16432:it's happening
+Sprynr:it's happening
+kylechan19:okay so now I need to set another timer for when it doesn't detect and put it so that the backend can have a time to do its thing
+jgarcia16432:have a whole new level of respect for JavaScript
+kylechan19:how long is enough time
+kylechan19:why do we want to give it like
+kylechan19:15 seconds before times out 20 seconds
+Sprynr:I'd probably say somewhere around 10 seconds
+Sprynr:20 seconds is like I just want to make sure that like you know whatever
+Sprynr:demo sentences were using her short and too long to time out that way.
+Sprynr:doesn't seem slow
+Sprynr:slower is my things already like garbage
+kylechan19:I'm going to push this change then
