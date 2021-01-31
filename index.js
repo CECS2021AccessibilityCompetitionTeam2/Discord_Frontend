@@ -143,7 +143,7 @@ client.on('message', async (msg) => {
 	if (msg.content === '!asl') {
 		changesToTxt = false;
 		// Write '!asl' to the file so that the .py script can translate the following line
-		fs.appendFile("./output/transcript.md", '!asl\n', err => {
+		fs.appendFile("./output/transcript.md", '  !asl\n', err => {
 			if (err) {
 				throw err;
 			}
@@ -155,11 +155,17 @@ client.on('message', async (msg) => {
 				if (!changesToTxt) {
 					msg.channel.send("Timed out. Please enter `!asl` and try again.")
 				} else {
-					// Create the attachment using MessageAttachment
-					const attachment = new Discord.MessageAttachment("./output/video.mp4");
-					// Send the local attachment in the message channel with a content
-					msg.channel.send(msg.author, attachment)
-					.catch(console.error);
+					msg.channel.send("Processing transcription, please wait . . .")
+					setTimeout(
+						function() {
+							/*	Create the attachment using MessageAttachment
+								TODO: Dynamic video file name using the message ID of the issuing command.
+							*/
+							const attachment = new Discord.MessageAttachment("./output/video.mp4");
+							// Send the local attachment in the message channel with a content
+							msg.channel.send(msg.author, attachment)
+							.catch(console.error);
+						}, timeoutDuration);
 				}
 			}, timeoutDuration);
 	}
