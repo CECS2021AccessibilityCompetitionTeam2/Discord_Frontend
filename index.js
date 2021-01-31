@@ -3,7 +3,6 @@ const Discord = require('discord.js');
 const yaml = require("js-yaml");
 const fs = require("fs");
 const client = new Discord.Client();
-const recorder = require('node-record-lpcm16');
 
 const { Readable } = require('stream');
 
