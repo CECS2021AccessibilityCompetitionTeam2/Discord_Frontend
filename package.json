@@ -28,6 +28,7 @@
     "fs": "0.0.1-security",
     "js-yaml": "^4.0.0",
     "node-opus": "^0.3.3",
+    "node-record-lpcm16": "^1.0.1",
     "prettier": "^2.2.1"
   }
 }
