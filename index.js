@@ -127,6 +127,11 @@ client.on('message', async (msg) => {
 				console.log(
 				`${user.username}: ${data.results[0].alternatives[0].transcript}`
 				);
+				fs.appendFile("./output/transcript.md", `${user.username}: ${data.results[0].alternatives[0].transcript}`, err => {
+					if(err) {
+						throw err;
+					}
+				});
 			});
 			const convertTo1ChannelStream = new ConvertTo1ChannelStream()
 			audioStream.pipe(convertTo1ChannelStream).pipe(recognizeStream)
